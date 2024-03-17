@@ -54,7 +54,7 @@ def get_act_scales(model, tokenizer, dataset, num_samples=512, seq_len=512):
 @torch.no_grad()
 def get_static_decoder_layer_scales(model,
                                     tokenizer,
-                                    dataset_path,
+                                    dataset,
                                     num_samples=512,
                                     seq_len=512,
                                     ):
@@ -87,7 +87,7 @@ def get_static_decoder_layer_scales(model,
 
     print("Collecting activation scales...")
     pbar = tqdm(range(num_samples))
-    dataset = load_dataset('json', data_files=dataset_path, split="train")
+    dataset = load_dataset(dataset, split="train")
     dataset = dataset.shuffle(seed=42)
     for i in pbar:
         input_ids = tokenizer(dataset[i]["text"], return_tensors="pt",
